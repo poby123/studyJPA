@@ -17,7 +17,9 @@ public class ItemRepository {
         if (item.getId() == null) {
             em.persist(item);
         } else {
-            em.merge(item);
+            //병합을 하게 되면 mergeItem 은 영속상태의 객체이지만, item 이 영속상태가 되지는 않는다.
+            //병합은 모든 필드의 값을 변경시켜버리므로, item 에 값이 없으면, db 값이 null 로 변경될 수도 있다.
+            Item mergeItem = em.merge(item);
         }
     }
 
