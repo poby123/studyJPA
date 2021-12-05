@@ -8,13 +8,17 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
 #        show_sql: true
         format_sql: true
+    
+  devtools:
+    restart:
+      enabled: false
 
 logging:
   level:
     org.hibernate.SQL: debug
-    org.hibernate.type: trace
+    # org.hibernate.type: trace

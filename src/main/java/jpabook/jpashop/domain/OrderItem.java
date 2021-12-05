@@ -9,6 +9,8 @@ import org.springframework.data.util.Lazy;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -25,6 +27,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     private int orderPrice;

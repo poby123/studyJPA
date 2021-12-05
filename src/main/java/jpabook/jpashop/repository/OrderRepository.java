@@ -25,6 +25,20 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
+    /**
+     * 엔티티를 fetch join을 사용해서 쿼리 1번에 조회
+     * 페치 조인으로 order->member, order->delivery는 이미 조회된 상태이므로 지연로딩x
+     * 
+     * => N+1 문제 해결!!
+     */
+    public List<Order> findAllWithMemberDelivery(){
+        return em.createQuery(
+            "select o from Order o"+
+            " join fetch o.member m"+
+            " join fetch o.delivery d", Order.class)
+            .getResultList();
+    }
+
     /*
      * JPQL 로 처리하는 방법.
      * 번거롭고, 실수가 발생하기 쉽다.

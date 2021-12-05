@@ -47,10 +47,12 @@ public class OrderServiceTest {
 
         //then
         Order getOrder = orderRepository.findOne(orderId);
+
         assertEquals("상품 주문시 상태는 ORDER", OrderStatus.ORDER, getOrder.getStatus());
         assertEquals("주문한 상품 수가 정확해야한다.", 1, getOrder.getOrderItems().size());
         assertEquals("주문 가격은 가격 * 수량이다", 10000 * orderCount, getOrder.getTotalPrice());
         assertEquals("주문 수량만큼 재고가 줄어들어야한다.", 8, book.getStockQuantity());
+        assertEquals("멤버 이름은 회원1이어야 한다.", "회원1", getOrder.getMember().getName());
     }
 
     @Test(expected = NotEnoughStockException.class)

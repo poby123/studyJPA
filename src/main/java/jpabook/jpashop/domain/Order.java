@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id") // "member_id" column in Member table
+    @JsonIgnore
     private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -31,6 +35,7 @@ public class Order {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
+    @JsonIgnore
     private Delivery delivery;
 
     private LocalDateTime orderDate; //주문시간
