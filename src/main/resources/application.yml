@@ -13,6 +13,7 @@ spring:
       hibernate:
 #        show_sql: true
         format_sql: true
+        default_batch_fetch_size: 500 #SQL IN절을 사용해서 컬렉션을 한번에 조회한다. 보통 100 ~ 1000이 적당.
     
   devtools:
     restart:

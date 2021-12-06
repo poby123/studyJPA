@@ -39,6 +39,36 @@ public class OrderRepository {
             .getResultList();
     }
 
+    /**
+     * 컬렉션 페치조인을 사용!
+     * 
+     * 1대N 조인이 발생하므로 데이터가 예측할 수 없이 증가한다.
+     *   => 1이 아닌 N을 기준으로 row가 생성되기 때문이다. 이 때문에 페이징이 불가능하다.
+     * 
+     * distinct 사용을 통해 SQL에 distict를 추가하고(그러나 DB에서는 모든 컬럼이 같아야만 중복을 제거한다),
+     * + 같은 엔티티가 조회되면 애플리케이션에서 중복을 걸러주므로써, order가 중복조회되는 것을 막아준다.
+     */
+    public List<Order> findAllWithItem(){
+        return em.createQuery(
+            "select distinct o from Order o"+
+            " join fetch o.member m"+
+            " join fetch o.delivery d"+
+            " join fetch o.orderItems oi"+
+            " join fetch oi.item i", Order.class)
+            .getResultList();
+    }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit){
+        return em.createQuery(
+            "select o from Order o"+
+            " join fetch o.member m"+
+            " join fetch o.delivery d", Order.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+    }
+
+
     /*
      * JPQL 로 처리하는 방법.
      * 번거롭고, 실수가 발생하기 쉽다.
